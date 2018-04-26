@@ -55,9 +55,10 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
  * @param {Boolean} [options.flush=false] Reset cache object
  * @returns {Array} array containing matching files
  */
+
+const fuckit = x => new RegExp(`${x}`.replace(/\/+/g, '\\\\+'));
+
 module.exports = async function (str, opts={}) {
-  // str = str.replace(/\\+|\//g, sep);
-  console.log('\n\n\n> str', str);
   let glob = globalyzer(str);
   console.log('> glob', glob);
 
@@ -69,7 +70,8 @@ module.exports = async function (str, opts={}) {
   const patterns = globrex(glob.glob, { globstar:true, extended:true });
 
   if (process.platform === 'win32') {
-    patterns.regex = new RegExp(patterns.string.replace(/\/+/g, '\\\\+'));
+    patterns.regex = fuckit(patterns.regex);
+    patterns.segments = patterns.segments.map(fuckit);
   }
   console.log('> patterns.regex', patterns.regex);
   console.log('> patterns.segments', patterns.segments);
