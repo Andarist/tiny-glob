@@ -56,7 +56,7 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
  * @returns {Array} array containing matching files
  */
 
-const fuckit = x => new RegExp(`${x}`.replace(/\/+/g, '\\\\+'));
+const fuckit = x => new RegExp(x.replace(/\/+/g, '\\\\+'));
 
 module.exports = async function (str, opts={}) {
   let glob = globalyzer(str);
@@ -70,8 +70,8 @@ module.exports = async function (str, opts={}) {
   const patterns = globrex(glob.glob, { globstar:true, extended:true });
 
   if (process.platform === 'win32') {
-    patterns.regex = fuckit(patterns.regex);
-    patterns.segments = patterns.segments.map(fuckit);
+    patterns.regex = fuckit(patterns.string);
+    patterns.segments = patterns.segments.map(String).map(fuckit);
   }
   console.log('> patterns.regex', patterns.regex);
   console.log('> patterns.segments', patterns.segments);
