@@ -71,7 +71,9 @@ module.exports = async function (str, opts={}) {
 
   if (process.platform === 'win32') {
     patterns.regex = fuckit(patterns.string);
-    patterns.segments = patterns.segments.map(String).map(fuckit);
+    // patterns.segments = patterns.segments.map(x => fuckit(x.toString()));
+    let r = new RegExp('\\/+', 'g');
+    patterns.segments = patterns.segments.map(String).map(x => x.replace(r, '\\+'));
   }
   console.log('> patterns.regex', patterns.regex);
   console.log('> patterns.segments', patterns.segments);
