@@ -69,11 +69,7 @@ module.exports = async function (str, opts={}) {
   const patterns = globrex(glob.glob, { globstar:true, extended:true });
 
   if (process.platform === 'win32') {
-    console.log('>>> string (before)', patterns.string);
-    let foo = patterns.string.replace(/\/+/g, '\\\\+');
-    console.log('>>> string (before)', patterns.string);
-
-    patterns.regex = new RegExp();
+    patterns.regex = new RegExp(patterns.string.replace(/\/+/g, '\\\\+'));
   }
   console.log('> patterns.regex', patterns.regex);
   console.log('> patterns.segments', patterns.segments);
