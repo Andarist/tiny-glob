@@ -68,7 +68,7 @@ module.exports = async function (str, opts={}) {
 
   if (process.platform === 'win32') {
     console.log('>>> string (before)', patterns.string);
-    let foo = patterns.string.replace(/\/+/g, '\\\\\+');
+    let foo = patterns.string.replace(/\\\//g, '\\\\+');
     console.log('>>> string (after)', foo);
     patterns.regex = new RegExp(foo);
   }
