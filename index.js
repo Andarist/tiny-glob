@@ -66,6 +66,9 @@ module.exports = async function (str, opts={}) {
   opts.cwd = opts.cwd || '.';
   const patterns = globrex(glob.glob, { globstar:true, extended:true });
 
+  if (process.platform === 'win32') {
+    patterns.regex = new RegExp(patterns.string.replace(/\//g, '\\\\\+'));
+  }
   console.log('> patterns.regex', patterns.regex);
   console.log('> patterns.segments', patterns.segments);
 
