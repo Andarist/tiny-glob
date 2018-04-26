@@ -22,7 +22,6 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
   for (; i < len; i++) {
     fullpath = join(dir, file=files[i]);
     relpath = dirname ? join(dirname, file) : file;
-    console.log('~~> relpath', relpath, lexer.regex.test(relpath));
     if (!dot && isHidden.test(relpath)) continue;
     isMatch = lexer.regex.test(relpath);
 
@@ -31,7 +30,10 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
     }
 
     if (!stats.isDirectory()) {
-      isMatch && output.push(relative(opts.cwd, fullpath));
+      if (isMatch) {
+        console.log('> IS FILE MATCH', relpath, opts.cwd);
+        output.push(relative(opts.cwd, fullpath));
+      }
       continue;
     }
 
@@ -68,9 +70,10 @@ module.exports = async function (str, opts={}) {
 
   if (process.platform === 'win32') {
     console.log('>>> string (before)', patterns.string);
-    let foo = patterns.string.replace(/\\\//g, '\\\\\+');
-    console.log('>>> string (after)', foo);
-    patterns.regex = new RegExp(foo);
+    let foo = patterns.string.replace(/\/+/g, '\\\\+');
+    console.log('>>> string (before)', patterns.string);
+
+    patterns.regex = new RegExp();
   }
   console.log('> patterns.regex', patterns.regex);
   console.log('> patterns.segments', patterns.segments);
