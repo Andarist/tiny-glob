@@ -1,7 +1,7 @@
 const fs = require('fs');
 const globrex = require('globrex');
 const globalyzer = require('globalyzer');
-const { join, resolve, relative, sep } = require('path');
+const { join, resolve, relative } = require('path');
 const { promisify } = require('util');
 
 const isHidden = /(^|(\\+|\/))\.[^(\\+|\/)\.]/g;
@@ -55,12 +55,8 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
  * @param {Boolean} [options.flush=false] Reset cache object
  * @returns {Array} array containing matching files
  */
-
-const fuckit = x => new RegExp(x.replace(/\/+/g, '\\\\+'));
-
 module.exports = async function (str, opts={}) {
   let glob = globalyzer(str);
-  console.log('> glob', glob);
 
   if (!glob.isGlob) return fs.existsSync(str) ? [str] : [];
   if (opts.flush) CACHE = {};
@@ -69,12 +65,6 @@ module.exports = async function (str, opts={}) {
   opts.cwd = opts.cwd || '.';
   const patterns = globrex(glob.glob, { globstar:true, extended:true });
 
-  if (process.platform === 'win32') {
-    patterns.regex = fuckit(patterns.string);
-    // patterns.segments = patterns.segments.map(x => fuckit(x.toString()));
-    let r = new RegExp('\\/+', 'g');
-    patterns.segments = patterns.segments.map(String).map(x => new RegExp(x.replace(r, '\\+')));
-  }
   console.log('> patterns.regex', patterns.regex);
   console.log('> patterns.segments', patterns.segments);
 
