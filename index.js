@@ -13,7 +13,7 @@ const CACHE = {};
 async function walk(output, prefix, lexer, opts, dirname='', level=0) {
   const rgx = lexer.segments[level];
   const dir = join(opts.cwd, prefix, dirname);
-  console.log('>>> dir', dir);
+  console.log('>> dir', dir);
   const files = await readdir(dir);
   const { dot, filesOnly } = opts;
 
