@@ -65,6 +65,8 @@ module.exports = async function (str, opts={}) {
   opts.cwd = opts.cwd || '.';
   const patterns = globrex(glob.glob, { globstar:true, extended:true });
 
+  console.log('> INPUT', str);
+  console.log('> GLOBAL', glob);
   console.log('> patterns.regex', patterns.regex);
   console.log('> patterns.segments', patterns.segments);
 
