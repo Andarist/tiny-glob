@@ -69,6 +69,7 @@ module.exports = async function (str, opts={}) {
   console.log('> INPUT', str);
   console.log('> GLOBAL', glob);
   console.log('> patterns.regex', patterns.regex);
+  console.log('> patterns.string', patterns.string);
   console.log('> patterns.segments', patterns.segments);
 
   await walk(matches, glob.base, patterns, opts, '.', 0);
