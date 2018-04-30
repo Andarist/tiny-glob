@@ -4,8 +4,9 @@ const globalyzer = require('globalyzer');
 const { join, resolve, relative } = require('path');
 const { promisify } = require('util');
 
+const isWin = process.platform === 'win32';
 const isHidden = /(^|(\\+|\/))\.[^(\\+|\/)\.]/g;
-const giveup = rgx => !rgx || rgx == '/^((?:[^\\/]*(?:\\/|$))*)$/';
+const giveup = rgx => !rgx || rgx == (isWin ? '/^((?:[^\\]*(?:\\|$))*)$/' : '/^((?:[^\\/]*(?:\\/|$))*)$/');
 const readdir = promisify(fs.readdir);
 
 const CACHE = {};
