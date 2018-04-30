@@ -64,15 +64,15 @@ module.exports = async function (str, opts={}) {
 
   let matches = [];
   opts.cwd = opts.cwd || '.';
-  const patterns = globrex(glob.glob, { globstar:true, extended:true });
+  let { path } = globrex(glob.glob, { filepath:true, globstar:true, extended:true });
+  console.log(path);
 
   console.log('> INPUT', str);
   console.log('> GLOBAL', glob);
-  console.log('> patterns.regex', patterns.regex);
-  console.log('> patterns.string', patterns.string);
-  console.log('> patterns.segments', patterns.segments);
+  console.log('> path.regex', path.regex);
+  console.log('> path.segments', path.segments);
 
-  await walk(matches, glob.base, patterns, opts, '.', 0);
+  await walk(matches, glob.base, path, opts, '.', 0);
 
   return opts.absolute ? matches.map(x => resolve(opts.cwd, x)) : matches;
 };
