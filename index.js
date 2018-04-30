@@ -64,7 +64,6 @@ module.exports = async function (str, opts={}) {
   let matches = [];
   opts.cwd = opts.cwd || '.';
   let { path } = globrex(glob.glob, { filepath:true, globstar:true, extended:true });
-  console.log(path);
 
   console.log('> INPUT', str);
   console.log('> GLOBAL', glob);
