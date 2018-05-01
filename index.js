@@ -7,10 +7,11 @@ const { promisify } = require('util');
 const isWin = process.platform === 'win32';
 const isHidden = /(^|(\\+|\/))\.[^(\\+|\/)\.]/g;
 const giveup = rgx => {
+  console.log(rgx && rgx.toString());
   if (!rgx) {
     return true;
   }
-  if (rgx.toString() === '/^((?:[^\\]*(?:\\|$))*)$/' || rgx.toString() === '/^((?:[^\\/]*(?:\\/|$))*)$/') {
+  if (rgx.toString() === '/^((?:[^\\\\]*(?:\\\\|$))*)$/' || rgx.toString() === '/^((?:[^\\/]*(?:\\/|$))*)$/') {
     return true;
   }
   console.log(" W T F ");
@@ -55,7 +56,7 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
 
     let g = giveup(rgx);
     console.log('GIVEUP', g);
-    await walk(output, prefix, lexer, opts, relpath, g ? null : level + 1);
+    await walk(output, prefix, lexer, opts, relpath, g ? false : level + 1);
   }
 }
 
