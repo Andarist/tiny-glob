@@ -25,8 +25,6 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
     relpath = dirname ? join(dirname, file) : file;
     if (!dot && isHidden.test(relpath)) continue;
     isMatch = lexer.regex.test(relpath);
-    console.log('-->', relpath);
-    console.log('-->', fullpath);
     if ((stats=CACHE[relpath]) === void 0) {
       CACHE[relpath] = stats = fs.lstatSync(fullpath);
     }
@@ -34,7 +32,10 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
     if (!stats.isDirectory()) {
       if (isMatch) {
         console.log('> IS FILE MATCH', relpath, opts.cwd);
+        console.log('->', fullpath);
+        console.log('->'. relative(opts.cwd, fullpath));
         output.push(relative(opts.cwd, fullpath));
+        console.log('->', output);
       }
       continue;
     }
