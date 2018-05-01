@@ -6,20 +6,28 @@ const { promisify } = require('util');
 
 const isWin = process.platform === 'win32';
 const isHidden = /(^|(\\+|\/))\.[^(\\+|\/)\.]/g;
-const giveup = rgx => !rgx || rgx === '/^((?:[^\\]*(?:\\|$))*)$/' || rgx === '/^((?:[^\\/]*(?:\\/|$))*)$/';
+const giveup = rgx => {
+  if (!rgx) {
+    return true;
+  }
+  if (rgx.toString() === '/^((?:[^\\]*(?:\\|$))*)$/' || rgx.toString() === '/^((?:[^\\/]*(?:\\/|$))*)$/') {
+    return true;
+  }
+  console.log(" W T F ");
+}
 const readdir = promisify(fs.readdir);
 
 const CACHE = {};
 
 async function walk(output, prefix, lexer, opts, dirname='', level=0) {
   console.log('-----------');
+  console.log('LEVEL', level);
   console.log('DIRNAME', dirname);
   const rgx = lexer.segments[level];
   console.log('RGX', rgx);
   const dir = join(opts.cwd, prefix, dirname);
   console.log('DIR', dir);
   const files = await readdir(dir);
-  console.log('FILES', files);
   const { dot, filesOnly } = opts;
 
   let i=0, len=files.length, file;
@@ -37,10 +45,7 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
     if (!stats.isDirectory()) {
       if (isMatch) {
         console.log('> IS FILE MATCH', relpath, opts.cwd);
-        console.log('->', fullpath);
-        console.log('->', relative(opts.cwd, fullpath));
         output.push(relative(opts.cwd, fullpath));
-        console.log('->', output);
       }
       continue;
     }
@@ -48,7 +53,9 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
     if (rgx && !rgx.test(file)) continue;
     !filesOnly && isMatch && output.push(join(prefix, relpath));
 
-    await walk(output, prefix, lexer, opts, relpath, giveup(rgx) ? null : level + 1);
+    let g = giveup(rgx);
+    console.log('GIVEUP', g);
+    await walk(output, prefix, lexer, opts, relpath, g ? null : level + 1);
   }
 }
 
