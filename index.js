@@ -33,7 +33,7 @@ async function walk(output, prefix, lexer, opts, dirname='', level=0) {
       if (isMatch) {
         console.log('> IS FILE MATCH', relpath, opts.cwd);
         console.log('->', fullpath);
-        console.log('->'. relative(opts.cwd, fullpath));
+        console.log('->', relative(opts.cwd, fullpath));
         output.push(relative(opts.cwd, fullpath));
         console.log('->', output);
       }
