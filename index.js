@@ -6,7 +6,7 @@ const { promisify } = require('util');
 
 const isWin = process.platform === 'win32';
 const isHidden = /(^|(\\+|\/))\.[^(\\+|\/)\.]/g;
-const giveup = rgx => !rgx || rgx === '/^((?:[^\\]*(?:\\|$))*)$/' || rgx === '/^((?:[^\\/]*(?:\\/|$))*)$/');
+const giveup = rgx => !rgx || rgx === '/^((?:[^\\]*(?:\\|$))*)$/' || rgx === '/^((?:[^\\/]*(?:\\/|$))*)$/';
 const readdir = promisify(fs.readdir);
 
 const CACHE = {};
