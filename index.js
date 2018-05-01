@@ -12,9 +12,14 @@ const readdir = promisify(fs.readdir);
 const CACHE = {};
 
 async function walk(output, prefix, lexer, opts, dirname='', level=0) {
+  console.log('-----------');
+  console.log('DIRNAME', dirname);
   const rgx = lexer.segments[level];
+  console.log('RGX', rgx);
   const dir = join(opts.cwd, prefix, dirname);
+  console.log('DIR', dir);
   const files = await readdir(dir);
+  console.log('FILES', files);
   const { dot, filesOnly } = opts;
 
   let i=0, len=files.length, file;
