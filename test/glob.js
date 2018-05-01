@@ -10,6 +10,7 @@ function isMatch(t, str, opts, arr) {
   arr = arr.map(unixify);
   console.log('-> isMatch mapped', arr);
   return glob(str, opts).then(order).then(val => {
+    console.log('-->', val);
     t.same(val, arr);
   });
 }
