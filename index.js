@@ -11,7 +11,7 @@ const giveup = rgx => {
   if (!rgx) {
     return true;
   }
-  if (rgx.toString() === '/^((?:[^\\\\]*(?:\\\\|$))*)$/' || rgx.toString() === '/^((?:[^\\/]*(?:\\/|$))*)$/') {
+  if (rgx.toString() === '/^((?:[^\\\\]*(?:\\\\+|$))*)$/' || rgx.toString() === '/^((?:[^\\/]*(?:\\/|$))*)$/') {
     return true;
   }
   console.log(" W T F ");
